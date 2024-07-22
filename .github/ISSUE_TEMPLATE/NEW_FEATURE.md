@@ -1,19 +1,26 @@
 ---
 name: NEW FEATURE
-about: Make new feautre for development
-title: '[part name] Add XXX page'
-labels: 'New Feature'
+about: NEW FEATURE
+title: "[] "
+labels: FEATURE
 assignees: ''
 ---
 
-## Feature Name
+## ✨작성할 기능에 대한 설명을 적어주세요
+```ts
+```
 
-<!-- Write page name -->
+<br><br>
 
-## Progress
+## 🌄 기능에 대한 사진을 첨부해주세요
 
-- [ ] Write here todo list.
+<br><br>
 
-## Design Screenshot
 
-## Precautions
+## ✅ 해야 할 작업들을 작성해주세요
+- [ ] 
+
+<br><br>
+
+## 🦋 연관된 이슈
+-

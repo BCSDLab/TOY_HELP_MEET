@@ -1,24 +1,39 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: Bug
+name: BUG REPORT
+about: BUG REPORT
+title: "[] "
+labels: BUG
 assignees: ''
 ---
 
-<!-- Template from tui.chart -->
-## Describe the bug
-A clear and concise description of what the bug is.
+## 🐞 무슨 버그인가요?
+```ts
 
-## To Reproduce
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+```
 
-## Expected behavior
-A clear and concise description of what you expected to happen.
+<br><br>
 
-## Screenshot
-If applicable, add screenshots to help explain your problem.
+## 🧐 재현하는 법
+1. 
+
+<br><br>
+
+## 😎 예상 동작
+```ts
+
+```
+
+<br><br>
+
+## 🌄 관련 사진
+
+
+<br><br>
+
+
+## 🦋 추가적인 내용
+```ts
+
+```
+
+<br><br>
