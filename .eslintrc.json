@@ -2,7 +2,7 @@
   "root": true,
   "env": {
     "browser": true,
-    "es2021": true,
+    "es2023": true,
     "node": true
   },
   "extends": [
@@ -20,7 +20,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
+    "ecmaVersion": 2023,
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint", "import"],
@@ -33,14 +33,11 @@
     }
   },
   "rules": {
-    "@typescript-eslint/no-unused-vars": "warn",
     "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off",
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "eol-last": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
-    "import/no-unresolved": "error",
     "import/order": [
       "error",
       {
@@ -67,7 +64,7 @@
           }
         ],
         "pathGroupsExcludedImportTypes": ["builtin"],
-        "newlines-between": "always",
+        "newlines-between": "never",
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
