@@ -20,9 +20,10 @@ export default function DutchPay() {
   const [result, setResult] = useState<{
     members: Member[];
     transfers: Transfer[];
-  }>();
+  }|null>();
 
   const handleAdd = (data: FormType) => {
+    setResult(null);
     setRawmembers((prev) => [...prev, new Member({ name: data.name, paid: Number(data.paid) })]);
     setFocus('name');
     reset();
@@ -31,6 +32,7 @@ export default function DutchPay() {
   const handleDelete = (idx: number) => {
     const members = rawMembers.filter((_, index) => index !== idx);
     setRawmembers(members);
+    setResult(null);
   };
 
   return (
@@ -64,25 +66,27 @@ export default function DutchPay() {
           추가
         </button>
       </form>
-      <div className="mt-5 w-full rounded bg-white p-2">
-        <div className="mb-3 text-xl font-semibold">돈 낼 사람 목록</div>
-        {rawMembers.map((value, index) => (
-          <div
-            className="flex justify-between py-1 text-lg"
-            key={`${value.name} ${value.paid} ${index}`}
-          >
-            <span className="w-1/2 text-center">{value.name}</span>
-            <span className="w-1/2 text-center">{value.paid.toLocaleString()}원</span>
-            <button type="button" onClick={() => handleDelete(index)}>
-              X
-            </button>
-          </div>
-        ))}
-      </div>
+      {!!rawMembers.length && (
+        <div className="mt-5 w-full rounded bg-white p-2">
+          <div className="mb-3 text-xl font-semibold">돈 낼 사람 목록</div>
+          {rawMembers.map((value, index) => (
+            <div
+              className="flex justify-between py-1 text-lg"
+              key={`${value.name} ${value.paid} ${index}`}
+            >
+              <span className="w-1/2 text-center">{value.name}</span>
+              <span className="w-1/2 text-center">{value.paid.toLocaleString()}원</span>
+              <button type="button" onClick={() => handleDelete(index)}>
+                X
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
       {result && (
         <div className="mt-5 w-full rounded bg-white p-2">
           <div className="mb-3 text-xl font-semibold">돈 보내기</div>
-          {result.transfers.map((transfer) => (
+          {result.transfers.filter(value=>value.amount!==0).map((transfer) => (
             <div
               className="grid grid-cols-2 text-center text-lg"
               key={`${transfer.from} ${transfer.to} ${transfer.amount}`}
@@ -97,8 +101,9 @@ export default function DutchPay() {
       )}
 
       <button
-        className="fixed bottom-16 w-full max-w-sm rounded bg-blue-400 py-3 text-center text-lg font-semibold text-white active:bg-blue-500"
+        className="fixed bottom-16 w-full max-w-sm rounded bg-blue-400 py-3 text-center text-lg font-semibold text-white active:bg-blue-500 disabled:bg-neutral-300"
         type="button"
+        disabled={!rawMembers.length}
         onClick={() => setResult(calculate(rawMembers))}
       >
         계산하기!
