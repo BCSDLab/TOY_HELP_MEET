@@ -13,13 +13,13 @@ export default function BottomNavigation() {
             <span className="text-xs mt-1">더치페이</span>
           </Link>
         </li>
-        <li className={router.pathname === '/roulette' ? 'text-blue-500' : ''}>
+        <li className={router.pathname === '/dutch-pay' ? 'text-blue-500' : ''}>
           <Link href="/roulette" className="flex flex-col items-center p-2">
             <span className="text-2xl">🎡</span>
             <span className="text-xs mt-1">룰렛</span>
           </Link>
         </li>
-        <li className={router.pathname === '/where-to-meet' ? 'text-blue-500' : ''}>
+        <li className={router.pathname === '/dutch-pay' ? 'text-blue-500' : ''}>
           <Link href="/where-to-meet" className="flex flex-col items-center p-2">
             <span className="text-2xl">📍</span>
             <span className="text-xs mt-1">만날 곳</span>
