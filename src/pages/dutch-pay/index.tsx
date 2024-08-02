@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { calculate } from '@/pages/dutch-pay/calculate';
-import { Member, Transfer } from './interface';
+import { MemberClass, Member, Transfer } from './interface';
 
 interface FormType {
   name: string;
@@ -16,22 +16,22 @@ export default function DutchPay() {
     handleSubmit,
     formState: { isValid },
   } = useForm<FormType>();
-  const [rawMembers, setRawmembers] = useState<Member[]>([]);
+  const [members, setMembers] = useState<MemberClass[]>([]);
   const [result, setResult] = useState<{
     members: Member[];
     transfers: Transfer[];
-  }|null>();
+  } | null>();
 
   const handleAdd = (data: FormType) => {
     setResult(null);
-    setRawmembers((prev) => [...prev, new Member({ name: data.name, paid: Number(data.paid) })]);
+    setMembers((prev) => [...prev, new MemberClass({ name: data.name, paid: Number(data.paid) })]);
     setFocus('name');
     reset();
   };
 
   const handleDelete = (idx: number) => {
-    const members = rawMembers.filter((_, index) => index !== idx);
-    setRawmembers(members);
+    const filteredList = members.filter((_, index) => index !== idx);
+    setMembers(filteredList);
     setResult(null);
   };
 
@@ -66,10 +66,10 @@ export default function DutchPay() {
           추가
         </button>
       </form>
-      {!!rawMembers.length && (
+      {!!members.length && (
         <div className="mt-5 w-full rounded bg-white p-2">
           <div className="mb-3 text-xl font-semibold">돈 낼 사람 목록</div>
-          {rawMembers.map((value, index) => (
+          {members.map((value, index) => (
             <div
               className="flex justify-between py-1 text-lg"
               key={`${value.name} ${value.paid} ${index}`}
@@ -86,25 +86,27 @@ export default function DutchPay() {
       {result && (
         <div className="mt-5 w-full rounded bg-white p-2">
           <div className="mb-3 text-xl font-semibold">돈 보내기</div>
-          {result.transfers.filter(value=>value.amount!==0).map((transfer) => (
-            <div
-              className="grid grid-cols-2 text-center text-lg"
-              key={`${transfer.from} ${transfer.to} ${transfer.amount}`}
-            >
-              <div>
-                {transfer.from} {'->'} {transfer.to}
+          {result.transfers
+            .filter((value) => value.amount !== 0)
+            .map((transfer) => (
+              <div
+                className="grid grid-cols-2 text-center text-lg"
+                key={`${transfer.from} ${transfer.to} ${transfer.amount}`}
+              >
+                <div>
+                  {transfer.from} {'->'} {transfer.to}
+                </div>
+                {transfer.amount.toLocaleString()}원
               </div>
-              {transfer.amount.toLocaleString()}원
-            </div>
-          ))}
+            ))}
         </div>
       )}
 
       <button
         className="fixed bottom-16 w-full max-w-sm rounded bg-blue-400 py-3 text-center text-lg font-semibold text-white active:bg-blue-500 disabled:bg-neutral-300"
         type="button"
-        disabled={!rawMembers.length}
-        onClick={() => setResult(calculate(rawMembers))}
+        disabled={!members.length}
+        onClick={() => setResult(calculate(members))}
       >
         계산하기!
       </button>

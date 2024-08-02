@@ -10,7 +10,7 @@ export interface Member {
   diff: number;
 }
 
-export class Member {
+export class MemberClass {
   name: string;
 
   paid: number;
@@ -40,7 +40,7 @@ export interface Transfer {
   amount: number;
 }
 
-export class Transfer {
+export class TransferClass {
   id: number;
 
   from: string;

@@ -10,17 +10,22 @@ function round({ members, transfers }: RoundProps): [Member[], Transfer[]] {
   newMembers.sort((a, b) => b.diff - a.diff);
 
   const sender = newMembers[0];
-  const recipient = newMembers.find((member) => member.diff < 0);
-  if (!recipient) { return [newMembers, transfers]; }
+  const receiver = newMembers.find((member) => member.diff < 0);
+  if (!receiver) {
+    return [newMembers, transfers];
+  }
 
-  const newTransfers = [...transfers, new Transfer({
-    id: transfers.length + 1,
-    from: sender.name,
-    to: recipient.name,
-    amount: sender.diff,
-  })];
+  const newTransfers = [
+    ...transfers,
+    new Transfer({
+      id: transfers.length + 1,
+      from: sender.name,
+      to: receiver.name,
+      amount: sender.diff,
+    }),
+  ];
 
-  recipient.setDiff(recipient.diff + sender.diff);
+  receiver.setDiff(receiver.diff + sender.diff);
   sender.setDiff(0);
   return [newMembers, newTransfers];
 }
