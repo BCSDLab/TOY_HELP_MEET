@@ -1,5 +1,3 @@
-import BottomNavigation from '@/components/Layout/BottomNavigation';
-
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -10,7 +8,6 @@ export default function Layout({ children }: LayoutProps) {
       <main className="flex-grow pb-14">
         {children}
       </main>
-      <BottomNavigation />
     </div>
   );
 }
