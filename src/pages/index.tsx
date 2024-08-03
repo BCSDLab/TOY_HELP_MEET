@@ -2,32 +2,27 @@ import Link from "next/link";
 
 const HOME_INDEX = [
   {
-    id: 1,
+    id: "/roulette",
     title: "룰렛",
-    href: "/roulette",
   },
   {
-    id: 2,
+    id: "/dutch-pay",
     title: "더치페이",
-    href: "/dutch-pay",
   },
   {
-    id: 3,
+    id: "/where-to-meet",
     title: "만날 위치",
-    href: "/where-to-meet",
   },
 ];
 
 export default function Home() {
   return (
     <div className="flex flex-col gap-28 py-14 px-10">
-      {HOME_INDEX.map((domain) => {
-        return (
-          <Link key={domain.id} href={domain.href}>
-            <span className="text-4xl font-semibold">{domain.title}</span>
-          </Link>
-        );
-      })}
+      {HOME_INDEX.map(({id, title}) => (
+        <Link key={id} href={id}>
+          <span className="text-4xl font-semibold">{title}</span>
+        </Link>
+      ))}
     </div>
   );
 }
