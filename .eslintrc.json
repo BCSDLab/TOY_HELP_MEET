@@ -38,6 +38,7 @@
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "eol-last": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
+    "jsx-quotes": ["error", "prefer-double"],
     "import/order": [
       "error",
       {
