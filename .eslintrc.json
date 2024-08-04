@@ -1,3 +1,115 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2023": true,
+    "node": true
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2023,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "import"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "eol-last": ["error", "always"],
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
+    "jsx-quotes": ["error", "prefer-double"],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "builtin",
+            "position": "before"
+          },
+          {
+            "pattern": "next/**",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"],
+        "newlines-between": "never",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1,
+        "VariableDeclarator": 1,
+        "outerIIFEBody": 1,
+        "MemberExpression": 1,
+        "FunctionDeclaration": { "parameters": 1, "body": 1 },
+        "FunctionExpression": { "parameters": 1, "body": 1 },
+        "CallExpression": { "arguments": 1 },
+        "ArrayExpression": 1,
+        "ObjectExpression": 1,
+        "ImportDeclaration": 1,
+        "flatTernaryExpressions": false,
+        "ignoreComments": false,
+        "ignoredNodes": [
+          "JSXElement",
+          "JSXElement > *",
+          "JSXAttribute",
+          "JSXIdentifier",
+          "JSXNamespacedName",
+          "JSXMemberExpression",
+          "JSXSpreadAttribute",
+          "JSXExpressionContainer",
+          "JSXOpeningElement",
+          "JSXClosingElement",
+          "JSXFragment",
+          "JSXOpeningFragment",
+          "JSXClosingFragment",
+          "JSXText",
+          "JSXEmptyExpression",
+          "JSXSpreadChild"
+        ],
+        "offsetTernaryExpressions": true
+      }
+    ],
+    "react/jsx-indent": ["error", 2],
+    "react/jsx-indent-props": ["error", 2]
+  }
 }

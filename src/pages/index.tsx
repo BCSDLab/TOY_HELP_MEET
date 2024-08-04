@@ -1,31 +1,28 @@
-import { Inter } from 'next/font/google';
-import Link from 'next/link';
+import Link from "next/link";
 
-const inter = Inter({ subsets: ['latin'] });
+const HOME_INDEX = [
+  {
+    id: "/roulette",
+    title: "룰렛",
+  },
+  {
+    id: "/dutch-pay",
+    title: "더치페이",
+  },
+  {
+    id: "/where-to-meet",
+    title: "만날 위치",
+  },
+];
 
 export default function Home() {
   return (
-    <main className={`flex min-h-screen flex-col items-center justify-between ${inter.className}`}>
-      <div className="box-border flex h-14 w-lvw items-center border-b-2 border-black pl-10">
-        <Link
-          className="flex h-full items-center px-2 text-lg font-semibold hover:bg-button-blue hover:text-white"
-          href={'/dutch-pay'}
-        >
-          더치페이
+    <div className="flex flex-col gap-28 py-14 px-10">
+      {HOME_INDEX.map(({id, title}) => (
+        <Link key={id} href={id}>
+          <span className="text-4xl font-semibold">{title}</span>
         </Link>
-        <Link
-          className="flex h-full items-center px-2 text-lg font-semibold hover:bg-button-blue hover:text-white"
-          href={'/roulette'}
-        >
-          룰렛 돌리기
-        </Link>
-        <Link
-          className="flex h-full items-center px-2 text-lg font-semibold hover:bg-button-blue hover:text-white"
-          href={'/where-to-meet'}
-        >
-          어디서 만날까?
-        </Link>
-      </div>
-    </main>
+      ))}
+    </div>
   );
 }
