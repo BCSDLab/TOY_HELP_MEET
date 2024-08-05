@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { calculate } from '@/pages/dutch-pay/calculate';
-import { MemberClass, Member, Transfer } from './interface';
+import { MemberClass,  Transfer } from './interface';
 
 interface FormType {
   name: string;
@@ -17,11 +17,8 @@ export default function DutchPay() {
     formState: { isValid },
   } = useForm<FormType>();
   const [members, setMembers] = useState<MemberClass[]>([]);
-  const [result, setResult] = useState<{
-    members: Member[];
-    transfers: Transfer[];
-  } | null>();
-
+  const [result, setResult] = useState< Transfer[] | null>();
+  
   const handleAdd = (data: FormType) => {
     setResult(null);
     setMembers((prev) => [...prev, new MemberClass({ name: data.name, paid: Number(data.paid) })]);
@@ -86,8 +83,7 @@ export default function DutchPay() {
       {result && (
         <div className="mt-5 w-full rounded bg-white p-2">
           <div className="mb-3 text-xl font-semibold">돈 보내기</div>
-          {result.transfers
-            .filter((value) => value.amount !== 0)
+          {result.filter((value) => value.amount !== 0)
             .map((transfer) => (
               <div
                 className="grid grid-cols-2 text-center text-lg"
