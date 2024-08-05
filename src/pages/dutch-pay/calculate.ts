@@ -1,34 +1,46 @@
-import { MemberClass, Transfer } from './interface';
+import { Member, Transfer } from './interface';
 
-export function calculate(inputMembers: MemberClass[]) {
-  const totalPaid = inputMembers.reduce((acc, member) => acc + member.paid, 0);
-  const average = Math.floor(totalPaid / inputMembers.length);
-  const members = inputMembers
-    .map((member) => new MemberClass(member))
-    .map((member) => member.calculateDiff(average));
+interface RoundProps {
+  members: Member[];
+  transfers: Transfer[];
+}
 
-  const minus = members.filter((v) => v.diff < 0);
-  const plus = members.filter((v) => v.diff > 0);
-  const resultList: Transfer[] = [];
+function round({ members, transfers }: RoundProps): [Member[], Transfer[]] {
+  const newMembers = members.map((member) => new Member(member));
+  newMembers.sort((a, b) => b.diff - a.diff);
 
-  while (minus.length && plus.length) {
-    resultList.push({
-      id: resultList.length,
-      from: minus[0].name,
-      to: plus[0].name,
-      amount: minus[0].diff + plus[0].diff > 0 ? Math.abs(minus[0].diff) : Math.abs(plus[0].diff),
-    });
-    minus[0].diff += plus[0].diff;
-    plus[0].diff += minus[0].diff;
-
-    if (minus[0].diff >= 0) {
-      minus.shift();
-    }
-
-    if (plus[0].diff <= 0) {
-      plus.shift();
-    }
+  const sender = newMembers[0];
+  const receiver = newMembers.find((member) => member.diff < 0);
+  if (!receiver) {
+    return [newMembers, transfers];
   }
 
-  return resultList;
+  const newTransfers = [
+    ...transfers,
+    new Transfer({
+      id: transfers.length + 1,
+      from: sender.name,
+      to: receiver.name,
+      amount: sender.diff,
+    }),
+  ];
+
+  receiver.setDiff(receiver.diff + sender.diff);
+  sender.setDiff(0);
+  return [newMembers, newTransfers];
+}
+
+export function calculate(inputMembers: Member[]) {
+  let transfers: Transfer[] = [];
+  const totalPaid = inputMembers.reduce((acc, member) => acc + member.paid, 0);
+  const average = Math.floor(totalPaid / inputMembers.length);
+  let members = inputMembers
+    .map((member) => new Member(member))
+    .map((member) => member.calculateDiff(average));
+
+  for (let i = 0; i < members.length; i += 1) {
+    [members, transfers] = round({ members, transfers });
+  }
+
+  return { members, transfers };
 }

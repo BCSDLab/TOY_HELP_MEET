@@ -28,7 +28,7 @@ export class MemberClass {
   }
 
   calculateDiff(average: number) {
-    this.diff =  this.paid-average ;
+    this.diff = average - this.paid;
     return this;
   }
 }
