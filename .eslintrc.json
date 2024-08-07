@@ -39,6 +39,7 @@
     "eol-last": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
     "jsx-quotes": ["error", "prefer-double"],
+    "arrow-parens": ["error", "always"],
     "import/order": [
       "error",
       {
