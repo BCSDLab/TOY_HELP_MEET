@@ -50,6 +50,7 @@ export interface KakaoAuth extends Cleanable {
   getAccessToken: () => string;
   getStatusInfo: () => Promise<StatusResponse | AuthError>;
   logout: () => Promise<LogoutResponse | AuthError>;
+  setAccessToken: (token: string) => void;
 }
 
 // Picker

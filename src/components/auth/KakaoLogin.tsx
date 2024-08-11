@@ -5,10 +5,6 @@ import kakaoLoginButton from '@/assets/images/kakao_login_large_narrow.png';
 export default function KakaoLogin() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
-
   const checkLoginStatus = async () => {
     if (window.Kakao && window.Kakao.Auth) {
       try {
@@ -22,7 +18,7 @@ export default function KakaoLogin() {
         console.error('Failed to get login status:', error);
       }
     }
-  };  
+  };
 
   const handleLogin = () => {
     if (window.Kakao && window.Kakao.Auth) {
@@ -46,21 +42,26 @@ export default function KakaoLogin() {
     }
   };
 
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
   return (
     <div>
       {!isLoggedIn ? (
-        <button 
+        <button
           onClick={handleLogin}
           className="w-full max-w-[175px] p-0 border-0 cursor-pointer bg-transparent"
         >
-          <Image 
-            src={kakaoLoginButton} 
-            alt="카카오 로그인" 
+          <Image
+            src={kakaoLoginButton}
+            alt="카카오 로그인"
+            priority={true}
             className="w-full h-auto"
           />
         </button>
       ) : (
-        <button 
+        <button
           onClick={handleLogout}
           className="px-4 py-2 text-black transition-colors bg-yellow-400 rounded hover:bg-yellow-500"
         >

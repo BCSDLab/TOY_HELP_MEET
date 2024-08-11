@@ -40,6 +40,8 @@
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
     "jsx-quotes": ["error", "prefer-double"],
     "arrow-parens": ["error", "always"],
+    "no-trailing-spaces": "error",
+    "comma-dangle": ["error", "always-multiline"],
     "import/order": [
       "error",
       {
