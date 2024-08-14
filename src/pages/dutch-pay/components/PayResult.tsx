@@ -2,15 +2,15 @@ import { MemberClass, Transfer } from '@/pages/dutch-pay/interface';
 
 export default function PayResult({
   members,
-  transfer,
+  transfers,
   onClick,
 }: {
   members: MemberClass[];
-  transfer: Transfer[];
+  transfers: Transfer[];
   onClick: () => void;
   }) {
-  const type = [...new Set(transfer.map(value => value.from))];
-  const list = type.map(t => transfer.filter(trans => trans.from === t));
+  const type = [...new Set(transfers.map(value => value.from))];
+  const list = type.map(t => transfers.filter(trans => trans.from === t));
 
   return (
     <div className="flex w-full flex-col gap-5">
