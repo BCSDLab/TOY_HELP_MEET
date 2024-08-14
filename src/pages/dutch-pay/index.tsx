@@ -43,7 +43,7 @@ export default function DutchPay() {
         <AddMoney members={members} deleteMember={handleDelete} setPaid={handlePaid} />
       )}
 
-      {step === 2 && <PayResult members={members} transfer={result} onClick={() => setStep(0)} />}
+      {step === 2 && <PayResult members={members} transfers={result} onClick={() => setStep(0)} />}
     </div>
   );
 }
