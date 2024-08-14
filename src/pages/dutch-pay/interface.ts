@@ -1,4 +1,5 @@
 export interface MemberProps {
+  id: number;
   name: string;
   paid: number;
   diff?: number;
@@ -11,13 +12,16 @@ export interface Member {
 }
 
 export class MemberClass {
+  id: number;
+
   name: string;
 
   paid: number;
 
   diff: number;
 
-  constructor({ name, paid, diff }: MemberProps) {
+  constructor({ id, name, paid, diff }: MemberProps) {
+    this.id = id;
     this.name = name;
     this.paid = paid;
     this.diff = diff || 0;
@@ -28,7 +32,7 @@ export class MemberClass {
   }
 
   calculateDiff(average: number) {
-    this.diff = average - this.paid;
+    this.diff =  this.paid-average ;
     return this;
   }
 }
