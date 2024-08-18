@@ -12,16 +12,20 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   setUser: (user: User | null) => void;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
   setIsLoading: (isLoading: boolean) => void;
   checkAuth: () => Promise<void>;
   logout: () => void;
+  refreshToken: () => Promise<boolean>;
+  initializeTokenRefresh: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuthenticated: false,
   isLoading: true,
   setUser: (user) => set({ user, isAuthenticated: !!user }),
+  setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
   setIsLoading: (isLoading) => set({ isLoading }),
   checkAuth: async () => {
     try {
@@ -47,5 +51,32 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error) {
       console.error('Logout error:', error);
     }
+  },
+  refreshToken: async () => {
+    try {
+      const response = await fetch('/api/auth/refresh-token', { method: 'POST' });
+      if (response.ok) {
+        await get().checkAuth();
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Token refresh error:', error);
+      return false;
+    }
+  },
+  initializeTokenRefresh: () => {
+    const refreshInterval = setInterval(
+      async () => {
+        const isRefreshed = await get().refreshToken();
+        if (!isRefreshed) {
+          clearInterval(refreshInterval);
+          set({ isAuthenticated: false, user: null });
+        }
+      },
+      14 * 60 * 1000
+    );
+
+    return () => clearInterval(refreshInterval);
   },
 }));

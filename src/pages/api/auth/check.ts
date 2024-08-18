@@ -1,18 +1,40 @@
-import { verifyToken } from '@/lib/jwt';
+import { verifyAccessToken, verifyRefreshToken, generateAccessToken } from '@/lib/jwt';
 import prisma from '@/lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const token = req.cookies.auth_token;
+  const accessToken = req.cookies.access_token;
+  const refreshToken = req.cookies.refresh_token;
 
-  if (!token) {
+  if (!accessToken) {
     return res
       .status(401)
       .json({ isAuthenticated: false, message: 'No authentication token provided.' });
   }
 
   try {
-    const decoded = verifyToken(token);
+    let decoded = verifyAccessToken(accessToken);
+    let newAccessToken = null;
+
+    // 액세스 토큰이 만료되었고 리프레시 토큰이 있는 경우
+    if (!decoded && refreshToken) {
+      const refreshDecoded = verifyRefreshToken(refreshToken);
+
+      if (refreshDecoded && typeof refreshDecoded.userId === 'number') {
+        const user = await prisma.user.findUnique({ where: { id: refreshDecoded.userId } });
+
+        if (user && user.refreshToken === refreshToken) {
+          // 새 액세스 토큰 생성
+          newAccessToken = generateAccessToken(user.id);
+          decoded = { userId: user.id };
+
+          // 쿠키에 새 액세스 토큰 설정
+          res.setHeader('Set-Cookie', [
+            `access_token=${newAccessToken}; HttpOnly; Path=/; Max-Age=${60 * 15}; SameSite=Strict`,
+          ]);
+        }
+      }
+    }
 
     if (!decoded || typeof decoded.userId !== 'number') {
       return res.status(401).json({ isAuthenticated: false, message: 'Invalid token.' });
@@ -32,6 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         name: user.name,
         profileImageUrl: user.profileImageUrl,
       },
+      tokenRefreshed: !!newAccessToken,
     });
   } catch (error) {
     console.error('Auth check error:', error);

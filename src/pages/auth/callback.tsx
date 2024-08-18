@@ -6,7 +6,7 @@ import { UserResponse } from '@/types/auth/user';
 
 export default function Callback() {
   const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser);
+  const { setUser, setIsAuthenticated } = useAuthStore();
 
   const sendCodeToServer = useCallback(
     async (code: string) => {
@@ -31,16 +31,21 @@ export default function Callback() {
             name,
             profileImageUrl,
           });
+          setIsAuthenticated(true);
+
+          useAuthStore.getState().initializeTokenRefresh();
 
           router.push('/me');
         } else {
-          console.error('Login failed:', result.error);
+          throw new Error(result.error || 'Login failed');
         }
       } catch (error) {
         console.error('Login error:', error);
+        setIsAuthenticated(false);
+        router.push('/auth/login');
       }
     },
-    [router, setUser]
+    [router, setUser, setIsAuthenticated]
   );
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { generateToken } from '@/lib/jwt';
+import { generateAccessToken, generateRefreshToken } from '@/lib/jwt';
 import prisma from '@/lib/prisma';
 import { KakaoTokenResponse } from '@/types';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -68,10 +68,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    const jwtToken = generateToken(user.id);
+    const accessToken = generateAccessToken(user.id);
+    const refreshToken = generateRefreshToken(user.id);
 
     res.setHeader('Set-Cookie', [
-      `auth_token=${jwtToken}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24}; SameSite=Strict`,
+      `access_token=${accessToken}; HttpOnly; Path=/; Max-Age=${60 * 15}; SameSite=Strict`,
+      `refresh_token=${refreshToken}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24 * 7}; SameSite=Strict`,
     ]);
 
     res.status(200).json({ success: true, data: user });
