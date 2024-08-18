@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
 import Layout from '@/components/layout/AppLayout';
 import Header from '@/components/layout/Header';
+import { useLoadingComponent } from '@/hooks/useLoading';
 import { useAuthStore } from '@/store/authStore';
 import '@/styles/globals.css';
 
@@ -27,9 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
     checkAuth();
   }, [checkAuth]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  useLoadingComponent(isLoading);
 
   return (
     <div

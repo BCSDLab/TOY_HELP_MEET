@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { LoadingDots } from '@/hooks/useLoading';
 import { useAuthStore } from '@/store/authStore';
 
 const Profile = () => {
@@ -14,7 +15,7 @@ const Profile = () => {
   }, [isAuthenticated, router]);
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <LoadingDots />;
   }
 
   return (

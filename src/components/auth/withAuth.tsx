@@ -1,5 +1,6 @@
 import { ComponentType, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useLoadingComponent } from '@/hooks/useLoading';
 import { useAuthStore } from '@/store/authStore';
 
 function withAuth<P extends object>(WrappedComponent: ComponentType<P>) {
@@ -13,9 +14,7 @@ function withAuth<P extends object>(WrappedComponent: ComponentType<P>) {
       }
     }, [isAuthenticated, isLoading, router]);
 
-    if (isLoading) {
-      return <div>Loading...</div>; // 또는 로딩 컴포넌트
-    }
+    useLoadingComponent(isLoading);
 
     if (!isAuthenticated) {
       return null;

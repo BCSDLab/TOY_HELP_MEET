@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import kakaoLoginButton from '@/assets/images/kakao_login_large_narrow.png';
+import { LoadingDots } from '@/hooks/useLoading';
 
 export default function KakaoLogin() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function KakaoLogin() {
     const code = new URLSearchParams(window.location.search).get('code');
     if (code) {
       handleCallback(code);
-      return <div>로그인 처리 중...</div>;
+      return <LoadingDots />;
     }
   }
 

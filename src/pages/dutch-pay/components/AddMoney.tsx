@@ -65,7 +65,7 @@ export default function AddMoney({
           className="fixed bottom-0 left-[50%] h-20 w-full max-w-md translate-x-[-50%] bg-[#3160D8] text-lg text-white disabled:bg-[#d9d9d9]"
           type="button"
           disabled={!isValid}
-          onClick={() => setPaid(Object.values(getValues()).map(v=>Number(v)))}
+          onClick={() => setPaid(Object.values(getValues()).map((v) => Number(v)))}
         >
           {isValid ? '정산하기' : '금액을 작성해주세요'}
         </button>

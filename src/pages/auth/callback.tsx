@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { LoadingDots } from '@/hooks/useLoading';
 import { useAuthStore } from '@/store/authStore';
 import { ApiResponse } from '@/types/api/ApiResponse';
 import { UserResponse } from '@/types/auth/user';
@@ -55,5 +56,5 @@ export default function Callback() {
     }
   }, [router.query, sendCodeToServer]);
 
-  return <div>로그인 처리 중...</div>;
+  return <LoadingDots />;
 }
