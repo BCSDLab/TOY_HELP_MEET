@@ -34,7 +34,7 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "react/no-unknown-property": ["error", { "ignore": ["css","intensity", "position", "object"] }],
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "eol-last": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
