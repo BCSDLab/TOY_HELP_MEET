@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAuthStore } from '@/store/authStore';
 
-const MePage = () => {
+const Profile = () => {
   const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
 
@@ -44,7 +44,7 @@ const MePage = () => {
         <div className="mb-4">
           <h3 className="mb-2 text-xl font-semibold">계정 관리</h3>
           <button
-            onClick={() => router.push('/me/edit')}
+            onClick={() => router.push('/profile/edit')}
             className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
           >
             프로필 수정
@@ -59,4 +59,4 @@ const MePage = () => {
   );
 };
 
-export default MePage;
+export default Profile;

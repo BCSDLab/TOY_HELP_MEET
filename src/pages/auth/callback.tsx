@@ -35,7 +35,7 @@ export default function Callback() {
 
           useAuthStore.getState().initializeTokenRefresh();
 
-          router.push('/me');
+          router.push('/profile');
         } else {
           throw new Error(result.error || 'Login failed');
         }

@@ -24,7 +24,7 @@ export default function Header() {
             {isAuthenticated ? (
               <>
                 <Link
-                  href="/me"
+                  href="/profile"
                   className="text-gray-600 transition-colors duration-200 hover:text-gray-800"
                 >
                   My Page
