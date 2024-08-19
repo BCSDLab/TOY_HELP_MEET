@@ -17,7 +17,7 @@ export function LoadingDots() {
 
   return (
     <div className="flex h-screen w-full items-center justify-center">
-      <div className="w-20 text-left">
+      <div className="w-24 text-left">
         <h2 className="text-2xl text-blue-500">로딩중{dots}</h2>
       </div>
     </div>

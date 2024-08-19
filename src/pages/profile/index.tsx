@@ -1,18 +1,12 @@
-import { useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import withAuth from '@/components/auth/withAuth';
 import { LoadingDots } from '@/hooks/useLoading';
 import { useAuthStore } from '@/store/authStore';
 
-const Profile = () => {
+function Profile() {
   const router = useRouter();
-  const { user, isAuthenticated } = useAuthStore();
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/auth/login');
-    }
-  }, [isAuthenticated, router]);
+  const { user } = useAuthStore();
 
   if (!user) {
     return <LoadingDots />;
@@ -58,6 +52,6 @@ const Profile = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Profile;
+export default withAuth(Profile);

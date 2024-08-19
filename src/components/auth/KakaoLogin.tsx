@@ -11,7 +11,7 @@ export default function KakaoLogin() {
   const handleLogin = () => {
     if (window.Kakao && window.Kakao.Auth) {
       window.Kakao.Auth.authorize({
-        redirectUri: `${window.location.origin}/auth/callback`,
+        redirectUri: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`,
       });
     } else {
       console.error('Kakao SDK not loaded');
@@ -31,7 +31,7 @@ export default function KakaoLogin() {
         throw new Error('Login failed');
       }
 
-      router.push('/'); // 로그인 후 리다이렉트할 페이지
+      router.push('/');
     } catch (error) {
       console.error('Login error:', error);
     } finally {

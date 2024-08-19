@@ -3,14 +3,20 @@ import { useRouter } from 'next/router';
 import { useLoadingComponent } from '@/hooks/useLoading';
 import { useAuthStore } from '@/store/authStore';
 
-function withAuth<P extends object>(WrappedComponent: ComponentType<P>) {
+function getDisplayName<P>(WrappedComponent: ComponentType<P>): string {
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+}
+
+// 인증이 필요한 페이지에 사용
+// withAuth(Profile)
+export default function withAuth<P extends object>(WrappedComponent: ComponentType<P>) {
   const WithAuth: React.FC<P> = (props) => {
     const router = useRouter();
     const { isAuthenticated, isLoading } = useAuthStore();
 
     useEffect(() => {
       if (!isLoading && !isAuthenticated) {
-        router.replace('/login');
+        router.replace('/auth/login');
       }
     }, [isAuthenticated, isLoading, router]);
 
@@ -27,9 +33,3 @@ function withAuth<P extends object>(WrappedComponent: ComponentType<P>) {
 
   return WithAuth;
 }
-
-function getDisplayName<P>(WrappedComponent: ComponentType<P>): string {
-  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
-}
-
-export default withAuth;

@@ -15,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useKakaoInit();
   useAuthCheck();
+
   useLoadingComponent(isLoading);
 
   return (
