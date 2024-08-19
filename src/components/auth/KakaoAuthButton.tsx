@@ -2,19 +2,19 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import kakaoLoginButton from '@/assets/images/kakao_login_large_narrow.png';
+import useKakaoAuth from '@/hooks/auth/useKakaoAuth';
 import { LoadingDots } from '@/hooks/useLoading';
 
-export default function KakaoLogin() {
+export default function KakaoAuthButton() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const startKakaoAuth = useKakaoAuth();
 
-  const handleLogin = () => {
-    if (window.Kakao && window.Kakao.Auth) {
-      window.Kakao.Auth.authorize({
-        redirectUri: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`,
-      });
-    } else {
-      console.error('Kakao SDK not loaded');
+  const handleLogin = async () => {
+    try {
+      await startKakaoAuth();
+    } catch (error) {
+      console.error('Kakao login failed:', error);
     }
   };
 

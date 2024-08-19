@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+const KAKAO_JAVASCRIPT_KEY = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY as string;
+
 export function useKakaoInit() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -8,7 +10,7 @@ export function useKakaoInit() {
       script.async = true;
       script.onload = () => {
         if (window.Kakao && !window.Kakao.isInitialized()) {
-          window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY as string);
+          window.Kakao.init(KAKAO_JAVASCRIPT_KEY);
         }
       };
       document.body.appendChild(script);
