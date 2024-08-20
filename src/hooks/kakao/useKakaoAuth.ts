@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
-export default function useKakaoAuth() {
-  const startKakaoAuth = useCallback((): Promise<void> => {
+export default function useKakaoAuthorize() {
+  const kakaoAuthorize = useCallback((): Promise<void> => {
     return new Promise((resolve, reject) => {
       if (!process.env.NEXT_PUBLIC_BASE_URL) {
         reject(new Error('NEXT_PUBLIC_BASE_URL is not defined'));
@@ -23,5 +23,5 @@ export default function useKakaoAuth() {
     });
   }, []);
 
-  return startKakaoAuth;
+  return { kakaoAuthorize };
 }
