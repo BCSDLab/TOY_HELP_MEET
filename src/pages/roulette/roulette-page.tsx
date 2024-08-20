@@ -46,18 +46,30 @@ const RoulettePage: React.FC<RoulettePageProps> = ({ onGoBack }) => {
         ctx.font = '18px Pretendard';
         ctx.textAlign = 'center';
 
+        const maxTextWidth = cw - 60;
+
         for (let i = 0; i < options.length; i++) {
           const angle = arc * i + arc / 2;
 
           ctx.save();
 
           ctx.translate(cw + Math.cos(angle) * (cw - 50), ch + Math.sin(angle) * (ch - 50));
-
           ctx.rotate(angle + Math.PI / 2);
 
-          options[i].value.split(' ').forEach((text, j) => {
-            ctx.fillText(text, 0, 30 * j);
-          });
+          const text = options[i].value;
+          let truncatedText = text;
+
+          if (ctx.measureText(text).width > maxTextWidth) {
+            while (
+              ctx.measureText(truncatedText + '...').width > maxTextWidth &&
+              truncatedText.length > 0
+            ) {
+              truncatedText = truncatedText.slice(0, -1);
+            }
+            truncatedText += '...';
+          }
+
+          ctx.fillText(truncatedText, 0, 0);
 
           ctx.restore();
         }
@@ -113,12 +125,20 @@ const RoulettePage: React.FC<RoulettePageProps> = ({ onGoBack }) => {
     <div className="flex h-screen flex-col items-center justify-between pb-24">
       <div className="flex flex-col items-center">
         {!spinning && winner ? (
-          <div className="text-3xl font-normal">{winner}</div>
+          <div className="flex w-80 items-center justify-center truncate text-center text-3xl font-normal">
+            {winner}
+          </div>
         ) : (
           <div className="flex h-9"></div>
         )}
         <div className="flex h-96 items-center justify-center">
-          <canvas ref={canvasRef} width={353} height={353} className="rounded-full" />
+          <canvas
+            ref={canvasRef}
+            width={353}
+            height={353}
+            className="cursor-pointer rounded-full"
+            onClick={rotateRoulette}
+          />
         </div>
       </div>
       <div className="flex w-full justify-between">
