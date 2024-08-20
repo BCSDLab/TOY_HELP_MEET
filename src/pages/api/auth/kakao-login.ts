@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { generateAccessToken, generateRefreshToken } from '@/lib/jwt';
 import prisma from '@/lib/prisma';
-import { KakaoTokenResponse } from '@/types';
+import { KakaoTokenResponse, KakaoUserResponse } from '@/types';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -40,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new Error('Failed to fetch user data');
     }
 
-    const userData = await userResponse.json();
+    const userData: KakaoUserResponse = await userResponse.json();
 
     const {
       id: kakaoId,
@@ -68,6 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
+    // 다음 토큰은 카카오 토큰과 별개임
     const accessToken = generateAccessToken(user.id);
     const refreshToken = generateRefreshToken(user.id);
 
