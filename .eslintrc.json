@@ -23,7 +23,7 @@
     "ecmaVersion": 2023,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "import"],
+  "plugins": ["react", "@typescript-eslint", "import", "prettier"],
   "settings": {
     "react": {
       "version": "detect"
@@ -33,6 +33,7 @@
     }
   },
   "rules": {
+    "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
     "no-console": ["warn", { "allow": ["warn", "error"] }],
@@ -41,7 +42,6 @@
     "jsx-quotes": ["error", "prefer-double"],
     "arrow-parens": ["error", "always"],
     "no-trailing-spaces": "error",
-    "comma-dangle": ["error", "always-multiline"],
     "import/order": [
       "error",
       {
