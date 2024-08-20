@@ -23,7 +23,7 @@
     "ecmaVersion": 2023,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "import", "prettier"],
+  "plugins": ["react", "@typescript-eslint", "import", "prettier", "prettier-plugin-tailwindcss"],
   "settings": {
     "react": {
       "version": "detect"

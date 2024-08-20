@@ -13,10 +13,6 @@ const HOME_INDEX = [
     id: '/where-to-meet',
     title: '만날 위치',
   },
-  {
-    id: '/auth/login',
-    title: '로그인',
-  },
 ];
 
 export default function Home() {
