@@ -16,8 +16,8 @@ datasource db {
 model User {
   id              Int      @id @default(autoincrement())
   kakaoId         String   @unique
-  email           String?  @unique
   name            String?
+  profileImageUrl String?
   accessToken     String?
   refreshToken    String?
   tokenExpiresAt  DateTime?

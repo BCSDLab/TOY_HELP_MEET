@@ -36,13 +36,13 @@ export interface LogoutResponse {
   };
 }
 
-export interface AuthError extends KakaoError { }
+export type AuthError = KakaoError;
 
 export interface StatusResponse {
   statusInfo: {
     status: '로그인 상태' | '비로그인 상태'; // 또는 'Logged in' | 'Not logged in';
     user: Record<string, unknown>;
-  }
+  };
 }
 
 export interface KakaoAuth extends Cleanable {
@@ -63,7 +63,7 @@ export interface BasePickerSettings {
   returnUrl?: string;
 }
 
-export interface SelectFriendSettings extends BasePickerSettings { }
+export type SelectFriendSettings = BasePickerSettings;
 
 export interface SelectFriendsSettings extends BasePickerSettings {
   maxPickableCount?: number; // default: 30
@@ -82,10 +82,10 @@ export interface FriendsPickerResponse {
   response: {
     selectedTotalCount: number;
     users: SelectedUser[];
-  }
+  };
 }
 
-export interface PickerError extends KakaoError { }
+export type PickerError = KakaoError;
 
 export interface KakaoPicker extends Cleanable {
   selectFriend: (settings?: SelectFriendSettings) => Promise<FriendsPickerResponse | PickerError>;

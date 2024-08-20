@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
 import Layout from '@/components/layout/AppLayout';
 import '@/styles/globals.css';
+import Header from '@/components/layout/Header';
 
 const PretendardVariable = localFont({ src: '../../src/assets/fonts/PretendardVariable.woff2' });
 
@@ -22,8 +23,11 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <div className={`${PretendardVariable.className} bg-[#fff] min-h-screen flex items-center justify-center`}>
+    <div
+      className={`${PretendardVariable.className} flex min-h-screen items-center justify-center bg-[#fff]`}
+    >
       <Layout>
+        <Header />
         <Component {...pageProps} />
       </Layout>
     </div>
