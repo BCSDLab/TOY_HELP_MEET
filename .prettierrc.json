@@ -8,17 +8,5 @@
   "arrowParens": "always",
   "bracketSpacing": true,
   "bracketSameLine": false,
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindClassOrder": [
-    "w-",
-    "h-",
-    "m-",
-    "p-",
-    "text-",
-    "bg-",
-    "border-",
-    "flex-",
-    "grid-",
-    "order-"
-  ]
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

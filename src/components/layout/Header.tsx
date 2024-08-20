@@ -1,8 +1,15 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useAuthStore } from '@/store/authStore';
 
 export default function Header() {
-  const { user, isAuthenticated, clearUser } = useAuthStore();
+  const { user, isAuthenticated, logout } = useAuthStore();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/auth/login');
+  };
 
   return (
     <header className="bg-white shadow-md">
@@ -26,7 +33,7 @@ export default function Header() {
                   Welcome, <span className="font-semibold">{user?.name || 'User'}</span>!
                 </span>
                 <button
-                  onClick={clearUser}
+                  onClick={handleLogout}
                   className="rounded bg-red-500 px-4 py-2 font-bold text-white transition-colors duration-200 hover:bg-red-600"
                 >
                   Logout

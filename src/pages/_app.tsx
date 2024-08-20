@@ -2,12 +2,15 @@ import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
 import Layout from '@/components/layout/AppLayout';
-import '@/styles/globals.css';
 import Header from '@/components/layout/Header';
+import { useAuthStore } from '@/store/authStore';
+import '@/styles/globals.css';
 
 const PretendardVariable = localFont({ src: '../../src/assets/fonts/PretendardVariable.woff2' });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const { checkAuth, isLoading } = useAuthStore();
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const script = document.createElement('script');
@@ -20,7 +23,13 @@ export default function App({ Component, pageProps }: AppProps) {
       };
       document.body.appendChild(script);
     }
-  }, []);
+
+    checkAuth();
+  }, [checkAuth]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div

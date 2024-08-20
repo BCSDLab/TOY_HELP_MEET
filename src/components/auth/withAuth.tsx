@@ -5,23 +5,23 @@ import { useAuthStore } from '@/store/authStore';
 function withAuth<P extends object>(WrappedComponent: ComponentType<P>) {
   const WithAuth: React.FC<P> = (props) => {
     const router = useRouter();
-    const { isAuthenticated } = useAuthStore();
+    const { isAuthenticated, isLoading } = useAuthStore();
 
     useEffect(() => {
-      if (!isAuthenticated) {
+      if (!isLoading && !isAuthenticated) {
         router.replace('/login');
       }
-    }, [isAuthenticated, router]);
+    }, [isAuthenticated, isLoading, router]);
 
-    if (typeof window !== 'undefined') {
-      if (!isAuthenticated) {
-        return null;
-      }
-
-      return <WrappedComponent {...props} />;
+    if (isLoading) {
+      return <div>Loading...</div>; // 또는 로딩 컴포넌트
     }
 
-    return null;
+    if (!isAuthenticated) {
+      return null;
+    }
+
+    return <WrappedComponent {...props} />;
   };
 
   WithAuth.displayName = `WithAuth(${getDisplayName(WrappedComponent)})`;
