@@ -1,0 +1,15 @@
+<svg width="221" height="302" viewBox="0 0 221 302" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="80.0432" height="79.2791" rx="18" transform="matrix(0.881635 0.471932 -0.484987 0.874522 138.904 164.817)" fill="#B2CCFF" fill-opacity="0.63"/>
+<path d="M169.247 244.92C163.406 251.39 148.41 248.759 140.094 244.126C161.802 257.465 165.87 258.257 169.254 254.358L183.182 227.342C181.634 230.335 175.077 238.462 169.247 244.92Z" fill="white"/>
+<rect width="138.576" height="136.248" rx="18" transform="matrix(0.989715 -0.143054 0.148095 0.988973 0 19.824)" fill="#B2CCFF" fill-opacity="0.63"/>
+<path d="M47.4273 133.738C35.1163 132.23 26.2678 113.012 25.1136 99.8232C26.6525 135.245 28.9608 140.521 36.2705 141.274L79.332 135.625C74.5578 136.246 59.715 135.242 47.4273 133.738Z" fill="white"/>
+<ellipse cx="22.0394" cy="35.6592" rx="22.0394" ry="35.6592" transform="matrix(0.985798 -0.167936 0.173805 0.98478 84.7881 22.3499)" fill="white"/>
+<ellipse cx="10.1848" cy="16.4787" rx="10.1848" ry="16.4787" transform="matrix(0.985798 -0.167936 0.173805 0.98478 106.482 45.0154)" fill="black"/>
+<ellipse cx="22.0394" cy="35.6592" rx="22.0394" ry="35.6592" transform="matrix(0.985798 -0.167936 0.173805 0.98478 49.2227 29.3381)" fill="white"/>
+<ellipse cx="10.1848" cy="16.4787" rx="10.1848" ry="16.4787" transform="matrix(0.985798 -0.167936 0.173805 0.98478 73.3318 49.95)" fill="black"/>
+<path d="M166.243 73.6999C169.996 66.3814 181.175 52.3737 195.869 54.8908" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M92.0797 213.788C90.442 209.33 85.0953 200.555 76.8107 201.121" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M170.06 90.6631C177.661 87.2884 195.317 83.2968 205.136 94.3286" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M88.9485 223.363C84.944 220.952 75.4107 217.576 69.3136 223.359" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="110.5" cy="292.131" rx="110.5" ry="9.86928" fill="#EAEAEA"/>
+</svg>

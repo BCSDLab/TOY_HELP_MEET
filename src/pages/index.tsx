@@ -13,6 +13,10 @@ const HOME_INDEX = [
     id: "/where-to-meet",
     title: "만날 위치",
   },
+  {
+    id: "/ice-breaking",
+    title: "아이스브레이킹",
+  },
 ];
 
 export default function Home() {
