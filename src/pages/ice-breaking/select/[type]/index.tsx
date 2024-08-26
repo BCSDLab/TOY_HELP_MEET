@@ -1,40 +1,15 @@
 import { useRouter } from 'next/router';
 import Heart from '@/assets/svg/heart.svg';
 import TopNavigation from '@/components/TopNavigation';
-
-interface Question {
-  couple: { title: string; color: string; shadow: string };
-  friend: { title: string; color: string; shadow: string };
-  job: { title: string; color: string; shadow: string };
-  family: { title: string; color: string; shadow: string };
-}
-
-const QUESTION_TYPE: Question = {
-  couple: {
-    title: '연인',
-    color: '#DC5B5B',
-    shadow: '#FFDFDF',
-  },
-  friend: {
-    title: '친구',
-    color: '#638CCB',
-    shadow: '#b8d2f9',
-  },
-  job: {
-    title: '직장',
-    color: '#85B68D',
-    shadow: '#d1ffd9',
-  },
-  family: {
-    title: '가족',
-    color: '#CA9648',
-    shadow: '#ffe5bf',
-  },
-};
+import { Question, QUESTION_TYPE } from '@/pages/ice-breaking/\bentity';
 
 export default function Page() {
   const router = useRouter();
-  const selected = QUESTION_TYPE[router.query.type as keyof Question];
+  const selected = QUESTION_TYPE[router.query.type as keyof Question] || {
+    title: '',
+    color: '',
+    shadow: '',
+  };
 
   return (
     <>
@@ -52,7 +27,7 @@ export default function Page() {
           이것은 질문이여
         </div>
         <button
-          className="fixed bottom-3 left-[50%] h-20 w-full max-w-sm translate-x-[-50%] bg-[#3160D8] text-2xl text-white rounded-lg"
+          className="fixed bottom-3 left-[50%] h-20 w-full max-w-sm translate-x-[-50%] rounded-lg bg-[#3160D8] text-2xl text-white"
           type="button"
         >
           다시뽑기

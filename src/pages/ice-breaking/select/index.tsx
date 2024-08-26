@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Heart from '@/assets/svg/heart.svg';
 import TopNavigation from '@/components/TopNavigation';
+import { QUESTION_TYPE, QuestionValue } from '@/pages/ice-breaking/\bentity';
 
 interface BlockProps {
   background: string;
@@ -53,10 +54,14 @@ export default function Select() {
           <span className="text-base font-normal">모임에서 사용해보세요!</span>
         </div>
         <div className="grid w-full grid-cols-2 gap-6 rounded-xl bg-white p-3 mt-10">
-          <BlockButton background="#FFDFDF" color="#DC5B5B" title="연인" path="/ice-breaking/select/couple"/>
-          <BlockButton background="#CADFFF" color="#638CCB" title="친구" path="/ice-breaking/select/friend"/>
-          <BlockButton background="#DEF4E1" color="#85B68D" title="직장" path="/ice-breaking/select/job"/>
-          <BlockButton background="#FFEBCD" color="#CA9648" title="가족" path="/ice-breaking/select/family"/>
+          {Object.values(QUESTION_TYPE).map((type:QuestionValue) =>
+            <BlockButton
+              key={type.title}
+              background={type.shadow}
+              color={type.color}
+              title={type.title}
+              path={type.path} />
+          )}
         </div>
       </div>
     </>
