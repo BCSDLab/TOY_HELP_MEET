@@ -12,14 +12,18 @@
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@prisma/client": "^5.18.0",
+    "jsonwebtoken": "^9.0.2",
     "@svgr/webpack": "^8.1.0",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-hook-form": "^7.52.1"
+    "react-hook-form": "^7.52.1",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.5",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -35,6 +39,7 @@
     "postcss": "^8",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
+    "prisma": "^5.18.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },

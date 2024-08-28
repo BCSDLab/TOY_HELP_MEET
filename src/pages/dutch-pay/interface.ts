@@ -53,9 +53,7 @@ export class TransferClass {
 
   amount: number;
 
-  constructor({
-    id, from, to, amount,
-  }: Transfer) {
+  constructor({ id, from, to, amount }: Transfer) {
     this.id = id;
     this.from = from;
     this.to = to;
