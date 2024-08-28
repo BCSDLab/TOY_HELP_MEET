@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,13 +8,105 @@ datasource db {
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
-  kakaoId         String   @unique
+  id              Int           @id @default(autoincrement())
+  kakaoId         String        @unique
   name            String?
   profileImageUrl String?
+  phoneNumber     String?
+  accountNumber   String?       // 암호화 필요
   accessToken     String?
   refreshToken    String?
   tokenExpiresAt  DateTime?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  ownedGroups     Group[]
+  groupMemberships GroupMember[]
+  addedFriends    Friend[]      @relation("UserAddedFriends")
+  addedByFriends  Friend[]      @relation("AddedByFriends")
+}
+
+model Friend {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation("UserAddedFriends", fields: [userId], references: [id])
+  friendId  Int
+  friend    User     @relation("AddedByFriends", fields: [friendId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, friendId])
+}
+
+model Group {
+  id          Int           @id @default(autoincrement())
+  name        String
+  ownerId     Int
+  owner       User          @relation(fields: [ownerId], references: [id])
+  inviteCode  String        @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  members     GroupMember[]
+  events      Event[]
+}
+
+model GroupMember {
+  id        Int     @id @default(autoincrement())
+  groupId   Int
+  group     Group   @relation(fields: [groupId], references: [id])
+  userId    Int?
+  user      User?   @relation(fields: [userId], references: [id])
+  joinedAt  DateTime @default(now())
+  name      String
+  isRegistered Boolean @default(false)
+  eventMemberships EventMember[]
+  sentTransfers    Transfer[] @relation("SentTransfers")
+  receivedTransfers Transfer[] @relation("ReceivedTransfers")
+  expenses    Expense[]
+
+  @@unique([groupId, userId])
+}
+
+model Event {
+  id          Int           @id @default(autoincrement())
+  groupId     Int
+  group       Group         @relation(fields: [groupId], references: [id])
+  name        String
+  date        DateTime
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  members     EventMember[]
+  expenses    Expense[]
+  transfers   Transfer[]
+}
+
+model EventMember {
+  id            Int         @id @default(autoincrement())
+  eventId       Int
+  event         Event       @relation(fields: [eventId], references: [id])
+  groupMemberId Int
+  groupMember   GroupMember @relation(fields: [groupMemberId], references: [id])
+}
+
+model Expense {
+  id          Int         @id @default(autoincrement())
+  eventId     Int
+  event       Event       @relation(fields: [eventId], references: [id])
+  payerId     Int
+  payer       GroupMember @relation(fields: [payerId], references: [id])
+  amount      Int
+  description String?
+  createdAt   DateTime    @default(now())
+}
+
+model Transfer {
+  id            Int         @id @default(autoincrement())
+  eventId       Int
+  event         Event       @relation(fields: [eventId], references: [id])
+  fromMemberId  Int
+  fromMember    GroupMember @relation("SentTransfers", fields: [fromMemberId], references: [id])
+  toMemberId    Int
+  toMember      GroupMember @relation("ReceivedTransfers", fields: [toMemberId], references: [id])
+  amount        Int
+  status        String      // e.g., "pending", "completed"
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
