@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import TopNavigation from '@/components/TopNavigation';
 import { calculate } from '@/pages/dutch-pay/calculate';
 import AddMembers from '@/pages/dutch-pay/components/AddMembers';
 import AddMoney from '@/pages/dutch-pay/components/AddMoney';
@@ -28,7 +29,8 @@ export default function DutchPay() {
 
   return (
     <div className="flex min-h-max w-full flex-col items-center justify-between px-3 py-5">
-      <div className="my-10 text-4xl font-bold">정산하기</div>
+      <TopNavigation/>
+      <div className="mt-5 mb-10 text-4xl font-bold">정산하기</div>
       {step === 0 && (
         <AddMembers
           setList={(data) => {
