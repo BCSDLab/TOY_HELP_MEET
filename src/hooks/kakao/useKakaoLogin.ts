@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { useAuthStore } from '@/store/authStore';
-import { UserResponse } from '@/types/auth/user';
+import { UserResponse } from '@/types';
 import { fetchApi } from '@/utils/api';
 
 export function useKakaoLogin() {
