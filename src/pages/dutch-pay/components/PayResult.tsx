@@ -8,9 +8,9 @@ export default function PayResult({
   members: MemberClass[];
   transfers: Transfer[];
   onClick: () => void;
-  }) {
-  const type = [...new Set(transfers.map(value => value.from))];
-  const list = type.map(t => transfers.filter(trans => trans.from === t));
+}) {
+  const type = [...new Set(transfers.map((value) => value.from))];
+  const list = type.map((t) => transfers.filter((trans) => trans.from === t));
 
   return (
     <div className="flex w-full flex-col gap-5">
@@ -38,16 +38,15 @@ export default function PayResult({
         <div className="border-b-[1px] border-solid border-[#e7e7e7] pb-4 text-3xl font-semibold">
           정산 내역
         </div>
-        {type.map((member,index) => (
-          <div className="flex flex-col p-4 text-lg mb-3" key={member}>
+        {type.map((member, index) => (
+          <div className="mb-3 flex flex-col p-4 text-lg" key={member}>
             <div className="text-xl font-semibold">{member}</div>
-            {list[index].map(trans =>
-              
+            {list[index].map((trans) => (
               <div className="flex items-center justify-between text-[#D83131]" key={trans.id}>
-                <div>{`-> ${ trans.to}`}</div>
-                <div>{ trans.amount.toLocaleString()}원</div>
+                <div>{`-> ${trans.to}`}</div>
+                <div>{trans.amount.toLocaleString()}원</div>
               </div>
-            )}
+            ))}
           </div>
         ))}
       </div>
