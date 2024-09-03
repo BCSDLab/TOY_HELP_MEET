@@ -57,8 +57,8 @@ export default function Modify() {
         </div>
         <div className="group flex min-h-[60vh] w-full flex-grow flex-col gap-10 rounded-[20px] bg-white px-5 py-10">
           <Field title="닉네임" essential register={register('nickName')} />
-          <Field title="전화번호" register={register('phone')} />
-          <Field title="계좌번호" register={register('account')} />
+          <Field title="전화번호" essential register={register('phone')} />
+          <Field title="계좌번호" essential register={register('account')} />
         </div>
       </div>
     </>
