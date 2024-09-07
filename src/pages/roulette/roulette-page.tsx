@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useRoulette } from '../../context/RouletteContext';
+import InvertedTriangleIcon from '@/assets/svg/inverted-triangle.svg';
+import { useRoulette } from '@/Context/RouletteContext';
+import WinnerImage from '@/assets/images/winnerImage.png';
+import Image from 'next/image';
 
 interface RoulettePageProps {
   onGoBack: () => void;
@@ -23,6 +26,45 @@ const RoulettePage: React.FC<RoulettePageProps> = ({ onGoBack }) => {
     }
   }, [rotation, options]);
 
+const getColor = (() => {
+  const colors = [
+    "#CADFFF",
+    "#EBEBEB",
+    "#FFFFFF",
+  ];
+
+  const state = {
+    prevIndex: -1,
+    firstIndex: -1,
+    count: 0,
+  };
+
+  return () => {
+    const selectColor = (prevIndex: number, firstIndex: number, count: number) => {
+      const index = (prevIndex + 1) % colors.length;
+
+      if (count === 0) {
+        state.firstIndex = index;
+        state.prevIndex = index;
+        state.count += 1;
+        return colors[index];
+      }
+
+      if (count === colors.length - 1 && index === firstIndex) {
+        state.prevIndex = (index + 1) % colors.length;
+        state.count += 1;
+        return colors[(index + 1) % colors.length];
+      }
+
+      state.prevIndex = index;
+      state.count += 1;
+      return colors[index];
+    };
+
+    return selectColor(state.prevIndex, state.firstIndex, state.count);
+  };
+})();
+
   const drawRoulette = () => {
     const canvas = canvasRef.current;
     if (canvas && options.length > 0) {
@@ -35,16 +77,23 @@ const RoulettePage: React.FC<RoulettePageProps> = ({ onGoBack }) => {
 
         for (let i = 0; i < options.length; i++) {
           ctx.beginPath();
-          ctx.fillStyle = getRandomColor();
+          ctx.fillStyle = getColor();
           ctx.moveTo(cw, ch);
           ctx.arc(cw, ch, cw, arc * (i - 1), arc * i);
           ctx.fill();
           ctx.closePath();
         }
 
-        ctx.fillStyle = '#fff';
-        ctx.font = '18px Pretendard';
-        ctx.textAlign = 'center';
+        // 중앙 동그라미 그리기
+        ctx.beginPath();
+        ctx.arc(cw, ch, 25, 0, Math.PI * 2);
+        ctx.fillStyle = '#3160D8';
+        ctx.fill();
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = 'rgba(49, 96, 216, 0.47)';
+        ctx.stroke();
+        ctx.closePath();
+
 
         const maxTextWidth = cw - 60;
 
@@ -102,6 +151,7 @@ const RoulettePage: React.FC<RoulettePageProps> = ({ onGoBack }) => {
     }
   };
 
+  
   const resetOptions = () => {
     onGoBack();
   };
@@ -111,47 +161,33 @@ const RoulettePage: React.FC<RoulettePageProps> = ({ onGoBack }) => {
     onGoBack();
   };
 
-  const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
-
   return (
     <div className="flex h-screen flex-col items-center justify-between pb-24">
       <div className="flex flex-col items-center">
-        {!spinning && winner ? (
-          <div className="flex w-80 items-center justify-center truncate text-center text-3xl font-normal">
-            {winner}
-          </div>
-        ) : (
-          <div className="flex h-9"></div>
-        )}
-        <div className="flex h-96 items-center justify-center">
+        <div className="flex relative h-96 items-center justify-center">
           <canvas
             ref={canvasRef}
             width={353}
             height={353}
-            className="cursor-pointer rounded-full"
+            className="z-10 cursor-pointer rounded-full"
             onClick={rotateRoulette}
           />
+          <div className="absolute text-white z-10">GO</div>
+          <InvertedTriangleIcon className="absolute z-20 top-3 text-white" />
+          <div className="absolute w-[369px] h-[369px] bg-blue rounded-full"></div>
         </div>
       </div>
-      <div className="flex w-full justify-between">
+      <div className="flex w-full justify-between px-4 py-3">
         <button
           onClick={resetOptions}
-          className="text-black text-m mt-4 rounded-lg bg-white px-3 py-2 font-normal transition"
+          className="text-black text-m mt-4 rounded-lg bg-rouletteBlue px-3 py-2 font-normal transition z-30"
         >
           재설정하기
         </button>
 
         <button
           onClick={newRoulette}
-          className="text-m text-black mt-4 rounded-lg bg-white px-3 py-2 font-normal transition"
+          className="text-m text-black mt-4 rounded-lg bg-rouletteBlue px-3 py-2 font-normal transition z-30"
         >
           새로운 룰렛
         </button>
@@ -164,6 +200,19 @@ const RoulettePage: React.FC<RoulettePageProps> = ({ onGoBack }) => {
       >
         {spinning ? '돌리는 중...' : winner ? '다시 돌리기' : '룰렛 돌리기'}
       </button>
+      {
+        (!spinning && winner ) && (
+          <div className='flex bg-white/95 w-[90%] h-[655px] absolute z-20 top-0 rounded-xl flex-col items-center p-5'>
+            <div className="flex text-3xl font-semibold mb-20">
+              결과 보기
+            </div>
+            <Image src={WinnerImage} alt="축하" className='flex w-[150px] h-[150px]'/>
+            <div className="flex text-5xl font-normal">
+              {winner}
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };

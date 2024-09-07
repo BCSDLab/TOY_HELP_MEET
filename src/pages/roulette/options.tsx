@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useRoulette } from '../../context/RouletteContext';
+
+import CloseIcon from '@/assets/svg/small-close.svg';
+import { useRoulette } from '@/Context/RouletteContext';
 
 interface RouletteOptionPageProps {
   onProceed: () => void;
@@ -76,9 +78,9 @@ const RouletteOptionPage: React.FC<RouletteOptionPageProps> = ({ onProceed }) =>
               <button
                 type="button"
                 onClick={() => handleDeleteOption(option.id)}
-                className="absolute right-2 flex h-5 w-5 items-center justify-center rounded-full bg-gray p-1 text-white"
+                className="absolute right-2 flex h-5 w-5 items-center justify-center rounded-full bg-gray"
               >
-                x
+                <CloseIcon/>
               </button>
             )}
           </div>

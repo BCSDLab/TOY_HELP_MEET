@@ -1,8 +1,10 @@
-import { RouletteProvider } from '../../context/RouletteContext';
 import RouletteOptionPage from './options';
 import RoulettePage from './roulette-page';
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
+import LeftIcon from '@/assets/svg/left.svg';
+import CloseIcon from '@/assets/svg/close.svg';
+import { RouletteProvider } from '@/Context/RouletteContext';
 
 export default function Roulette() {
   const [showRoulettePage, setShowRoulettePage] = useState(false);
@@ -27,11 +29,15 @@ export default function Roulette() {
     <RouletteProvider>
       <div className="flex w-full justify-between p-4">
         <button type="button" onClick={handleGoBack}>
-          이전
+          <LeftIcon />
         </button>
-        {showRoulettePage && <button type="button">엑스</button>}
+        {showRoulettePage && 
+          <button type="button">
+            <CloseIcon />
+          </button>
+          }
       </div>
-      <div className="relative flex h-[calc(100vh-50px)] flex-col px-5">
+      <div className="relative flex h-[calc(100vh-105px)] flex-col px-5">
         <div className="mb-16 flex justify-center text-4xl font-semibold">룰렛 돌리기</div>
         {showRoulettePage ? (
           <RoulettePage onGoBack={() => setShowRoulettePage(false)} />

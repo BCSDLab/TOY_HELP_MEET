@@ -13,6 +13,8 @@ const config: Config = {
       },
     },
     colors: {
+      rouletteBlue: "#CADFFF",
+      rouletteGray: "#EBEBEB",
       gray: "#D9D9D9",
       blue: "#3160D8",
       bg: "#F7F7F7",
