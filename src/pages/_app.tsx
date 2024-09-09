@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
 import Layout from '@/components/layout/AppLayout';
-import Header from '@/components/layout/Header';
 import { useKakaoInit } from '@/hooks/kakao/useKakaoInit';
 import { useLoadingComponent } from '@/hooks/useLoading';
 import { useAuthStore } from '@/store/authStore';
@@ -25,7 +24,6 @@ export default function App({ Component, pageProps }: AppProps) {
       className={`${PretendardVariable.className} flex min-h-screen items-center justify-center bg-[#fff]`}
     >
       <Layout>
-        <Header />
         <Component {...pageProps} />
       </Layout>
     </div>

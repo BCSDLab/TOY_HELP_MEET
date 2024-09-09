@@ -1,4 +1,5 @@
 import UserIcon from '@/assets/svg/user.svg';
+import TopNavigation from '@/components/TopNavigation';
 import Link from 'next/link';
 
 function Field({ title, data }: { title: string; data: string }) {
@@ -12,6 +13,8 @@ function Field({ title, data }: { title: string; data: string }) {
 
 export default function User() {
   return (
+    <>
+      <TopNavigation />
     <div className="flex flex-col items-center gap-10 p-5">
       <div className="w-full text-[36px] font-semibold">회원정보</div>
       <div className="flex flex-col items-center gap-5">
@@ -35,5 +38,6 @@ export default function User() {
         </Link>
       </div>
     </div>
+    </>
   );
 }
