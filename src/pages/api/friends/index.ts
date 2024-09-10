@@ -1,17 +1,16 @@
 import { AuthenticatedRequest, withApiAuth } from '@/lib/authMiddleware';
 import type { NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
+import { ApiResponse } from '@/utils/api';
 
-async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
-  if (req.method !== 'GET' && req.method !== 'POST') {
-    res.setHeader('Allow', ['GET', 'POST']);
-    return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
-  }
+interface Friend {
+  id: number;
+  name: string | null;
+  profileImageUrl: string | null;
+}
 
-  const userId = req.userId;
-
-  if (req.method === 'GET') {
-    // 친구 목록 조회
+async function getFriends(userId: number): Promise<ApiResponse<Friend[]>> {
+  try {
     const friends = await prisma.friend.findMany({
       where: { userId: userId },
       include: {
@@ -25,19 +24,24 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
       },
     });
 
-    res.status(200).json({
+    return {
       success: true,
-      data: friends.map(f => f.friend),
-    });
-  } else if (req.method === 'POST') {
-    // 친구 추가
-    const { friendId } = req.body;
+      data: friends.map((f) => f.friend),
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: 'Failed to fetch friends.',
+    };
+  }
+}
 
-    if (!friendId || typeof friendId !== 'number') {
-      return res.status(400).json({ success: false, message: 'Invalid friend ID.' });
-    }
+async function addFriend(userId: number, friendId: number): Promise<ApiResponse<any>> {
+  if (!friendId || typeof friendId !== 'number') {
+    return { success: false, message: 'Invalid friend ID.' };
+  }
 
-    // 이미 친구인지 확인
+  try {
     const existingFriend = await prisma.friend.findFirst({
       where: {
         userId: userId,
@@ -46,10 +50,9 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
     });
 
     if (existingFriend) {
-      return res.status(400).json({ success: false, message: 'Already friends.' });
+      return { success: false, message: 'Already friends.' };
     }
 
-    // 친구 추가
     const newFriend = await prisma.friend.create({
       data: {
         userId: userId,
@@ -57,10 +60,33 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
       },
     });
 
-    res.status(201).json({
+    return {
       success: true,
       data: newFriend,
-    });
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: 'Failed to add friend.',
+    };
+  }
+}
+
+async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    res.setHeader('Allow', ['GET', 'POST']);
+    return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
+  }
+
+  const userId = req.userId;
+
+  if (req.method === 'GET') {
+    const result = await getFriends(userId);
+    res.status(result.success ? 200 : 500).json(result);
+  } else if (req.method === 'POST') {
+    const { friendId } = req.body;
+    const result = await addFriend(userId, friendId);
+    res.status(result.success ? 201 : 400).json(result);
   }
 }
 
