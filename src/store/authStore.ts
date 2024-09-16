@@ -1,23 +1,23 @@
+import { UserDTO } from '@/types';
 import { create } from 'zustand';
 
-interface User {
-  id: number;
-  kakaoId: string;
-  name: string | null;
-  profileImageUrl: string | null;
-}
-
 interface AuthState {
-  user: User | null;
+  user: UserDTO | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  setUser: (user: User | null) => void;
+  setUser: (user: UserDTO | null) => void;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   setIsLoading: (isLoading: boolean) => void;
   checkAuth: () => Promise<void>;
+  login: (code: string) => Promise<void>;
   logout: () => void;
   refreshToken: () => Promise<boolean>;
   initializeTokenRefresh: () => void;
+}
+
+interface AuthCheckResponse {
+  isAuthenticated: boolean;
+  user: UserDTO | null;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -38,6 +38,41 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
     } catch (error) {
       set({ isAuthenticated: false, user: null, isLoading: false });
+    }
+  },
+  login: async (code: string) => {
+    try {
+      const response = await fetch('/api/auth/kakao-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success && result.data) {
+        const { id, kakaoId, name, profileImageUrl, phoneNumber } = result.data;
+        set({
+          user: { id, kakaoId, name, profileImageUrl, phoneNumber },
+          isAuthenticated: true
+        });
+
+        get().initializeTokenRefresh();
+
+        return Promise.resolve();
+      } else {
+        throw new Error(result.message || 'Login failed');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      set({ isAuthenticated: false, user: null });
+      return Promise.reject(error);
     }
   },
   logout: async () => {

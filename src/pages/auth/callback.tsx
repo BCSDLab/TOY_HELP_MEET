@@ -1,18 +1,19 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useKakaoLogin } from '@/hooks/kakao/useKakaoLogin';
 import { LoadingDots } from '@/hooks/useLoading';
+import { useAuthStore } from '@/store/authStore';
+import { useKakaoLogin } from '@/hooks/kakao/useKakaoLogin';
 
 export default function Callback() {
   const router = useRouter();
-  const { kakaoLogin } = useKakaoLogin();
+  const { handleLogin } = useKakaoLogin();
 
   useEffect(() => {
     const { code } = router.query;
     if (code) {
-      kakaoLogin(code as string);
+      handleLogin(code as string);
     }
-  }, [router.query, kakaoLogin]);
+  }, [router.query, handleLogin]);
 
   return <LoadingDots />;
 }
