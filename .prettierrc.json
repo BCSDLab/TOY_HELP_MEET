@@ -8,7 +8,7 @@
   "arrowParens": "always",
   "bracketSpacing": true,
   "bracketSameLine": false,
-  "tailwindConfig": "./tailwind.config.js",
+  "tailwindConfig": "./tailwind.config.ts",
   "tailwindFunctions": ["clsx", "cn"],
   "plugins": ["prettier-plugin-tailwindcss"]
 }
