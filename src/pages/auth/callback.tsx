@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { LoadingDots } from '@/hooks/useLoading';
-import { useAuthStore } from '@/store/authStore';
 import { useKakaoLogin } from '@/hooks/kakao/useKakaoLogin';
 
 export default function Callback() {

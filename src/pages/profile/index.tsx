@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import withAuth from '@/components/auth/withAuth';
 import { LoadingDots } from '@/hooks/useLoading';
 import { useAuthStore } from '@/store/authStore';
@@ -27,12 +26,12 @@ function Profile() {
 
   return (
     <>
-      <TopNavigation path='/'/>
+      <TopNavigation path="/" />
       <div className="flex flex-col items-center gap-10 p-5">
-        <div className="flex items-center justify-between w-full">
+        <div className="flex w-full items-center justify-between">
           <div className="w-full text-[36px] font-semibold">회원정보</div>
           <button
-            className="flex w-24 p-2 items-center justify-center rounded-[8px] text-[18px] font-medium text-[black]"
+            className="flex w-24 items-center justify-center rounded-[8px] p-2 text-[18px] font-medium text-[black]"
             onClick={handleLogout}
           >
             로그아웃
@@ -52,7 +51,8 @@ function Profile() {
             <UserIcon className="size-[110px]" />
           )}
           <div className="text-[24px] font-semibold">
-          {user.name || ''}<span className="ml-2 font-medium">님</span>
+            {user.name || ''}
+            <span className="ml-2 font-medium">님</span>
           </div>
         </div>
 
@@ -61,7 +61,7 @@ function Profile() {
           <Field title="전화번호" data="010-XXXX-XXXX" />
           <Field title="계좌번호" data="XXXX-XXX-XXXXX" />
         </div>
-        <div className="flex justify-end w-full">
+        <div className="flex w-full justify-end">
           <Link
             className="flex h-[35px] w-[83px] items-center justify-center rounded-[8px] bg-[#3160d8] text-[18px] font-medium text-white"
             href={`/user/modify?nickName=${'XXX'}&phone=${'010-XXXX-XXXX'}&account=${'XXXX-XXX-XXXXX'}`}

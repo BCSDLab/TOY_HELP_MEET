@@ -1,7 +1,7 @@
 import { AuthenticatedRequest, withApiAuth } from '@/lib/authMiddleware';
 import type { NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
-import { ApiResponse } from '@/utils/api';
+import { ApiResponse } from '@/types/api/api';
 
 interface Friend {
   id: number;

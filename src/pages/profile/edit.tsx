@@ -21,7 +21,7 @@ function Field({ title, essential = false, register }: FieldProps) {
         className="flex h-[32px] items-center rounded-[6px] border-[1px] border-solid border-[#b4b4b4] px-2 font-medium"
         htmlFor={title}
       >
-        <input id={title} className="flex-grow h-full" type="text" {...register} />
+        <input id={title} className="h-full flex-grow" type="text" {...register} />
         <button type="button">
           <DeleteIcon className="size-[20px]" />
         </button>

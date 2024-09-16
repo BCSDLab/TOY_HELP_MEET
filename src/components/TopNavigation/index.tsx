@@ -9,15 +9,15 @@ interface Props {
 export default function TopNavigation({ path, close = false }: Props) {
   const router = useRouter();
   return (
-    <div className="w-full h-[50px]"> 
-      <div className="fixed top-0 flex w-full max-w-md h-[50px] justify-between p-3 bg-[#f7f7f7]">
+    <div className="h-[50px] w-full">
+      <div className="fixed top-0 flex h-[50px] w-full max-w-md justify-between bg-[#f7f7f7] p-3">
         <button onClick={() => (path ? router.push(path) : router.back())}>
           <Left />
         </button>
         {close && (
-        <button onClick={() => router.push('/')}>
-          <Close />
-        </button>
+          <button onClick={() => router.push('/')}>
+            <Close />
+          </button>
         )}
       </div>
     </div>

@@ -16,8 +16,8 @@ export default function IceBreaking() {
         <Ice />
       </div>
       <button
-        className="fixed bottom-5 w-full max-w-sm rounded-lg bg-[#3160D8] p-5 text-white cursor-pointer text-xl"
-        onClick={()=>router.push('/ice-breaking/select')}
+        className="fixed bottom-5 w-full max-w-sm cursor-pointer rounded-lg bg-[#3160D8] p-5 text-xl text-white"
+        onClick={() => router.push('/ice-breaking/select')}
       >
         시작하기
       </button>

@@ -34,12 +34,16 @@ const HOME_INDEX = [
   },
 ];
 
-function Block({ data }: { data: { id: string; title: string; icon: JSX.Element, description: string } }) {
+function Block({
+  data,
+}: {
+  data: { id: string; title: string; icon: JSX.Element; description: string };
+}) {
   const { title, icon, description } = data;
   return (
     <div className="flex h-[110px] w-full items-center gap-2 rounded-[20px] bg-white px-5 py-5">
       {icon}
-      <div className="flex flex-col h-full gap-3 overflow-hidden">
+      <div className="flex h-full flex-col gap-3 overflow-hidden">
         <div className="text-[20px] font-medium">{title}</div>
         <div className="line-clamp-3 whitespace-pre-wrap text-[12px] font-extralight text-[#7d7d7d]">
           {description}
@@ -54,24 +58,27 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-5 px-10 py-14">
-      <div className="flex items-center justify-between mb-2">
+      <div className="mb-2 flex items-center justify-between">
         <div className="text-[36px] font-semibold">선택하시오!</div>
         {user ? (
-          <Link href={'/profile'}>
-            <Image
-              src={user.profileImageUrl || '/profile.png'}
-              alt={user.name || '프로필 이미지'}
-              width={35}
-              height={35}
-              className="rounded-full"
-              priority
-            />
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href={'/friends'}>
+              <div className="cursor-pointer text-[16px] font-light text-[#3160d8]">친구 목록</div>
+            </Link>
+            <Link href={'/profile'}>
+              <Image
+                src={user.profileImageUrl || '/profile.png'}
+                alt={user.name || '프로필 이미지'}
+                width={35}
+                height={35}
+                className="rounded-full"
+                priority
+              />
+            </Link>
+          </div>
         ) : (
           <Link href={'/auth/login'}>
-            <button
-              className="flex h-[35px] w-[69px] items-center justify-center rounded-[8px] bg-[#3160d8] text-[16px] font-medium text-white"
-            >
+            <button className="flex h-[35px] w-[69px] items-center justify-center rounded-[8px] bg-[#3160d8] text-[16px] font-medium text-white">
               로그인
             </button>
           </Link>
