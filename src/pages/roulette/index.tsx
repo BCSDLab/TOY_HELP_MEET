@@ -6,7 +6,7 @@ import LeftIcon from '@/assets/svg/left.svg';
 import CloseIcon from '@/assets/svg/close.svg';
 import { RouletteProvider } from '@/Context/RouletteContext';
 
-export default function Roulette() {
+function Roulette() {
   const [showRoulettePage, setShowRoulettePage] = useState(false);
 
   useEffect(() => {
@@ -38,7 +38,6 @@ export default function Roulette() {
           }
       </div>
       <div className="relative flex h-[calc(100vh-105px)] flex-col px-5">
-        <div className="mb-16 flex justify-center text-4xl font-semibold">룰렛 돌리기</div>
         {showRoulettePage ? (
           <RoulettePage onGoBack={() => setShowRoulettePage(false)} />
         ) : (
@@ -48,3 +47,5 @@ export default function Roulette() {
     </RouletteProvider>
   );
 }
+
+export default Roulette;

@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import InvertedTriangleIcon from '@/assets/svg/inverted-triangle.svg';
 import { useRoulette } from '@/Context/RouletteContext';
-import WinnerImage from '@/assets/images/winnerImage.png';
-import Image from 'next/image';
+import WinnerModal from '@/pages/roulette/WinnerModal';
 
 interface RoulettePageProps {
   onGoBack: () => void;
@@ -13,35 +12,33 @@ const defaultOptions = [
   { id: 2, value: '' },
 ];
 
-const RoulettePage: React.FC<RoulettePageProps> = ({ onGoBack }) => {
+function RoulettePage ({ onGoBack } : RoulettePageProps) {
   const { options, setOptions } = useRoulette();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [spinning, setSpinning] = useState(false);
-  const [rotation, setRotation] = useState<number>(0);
   const [winner, setWinner] = useState<string | null>(null);
 
   useEffect(() => {
     if (canvasRef.current) {
       drawRoulette();
     }
-  }, [rotation, options]);
+  }, [options]);
 
-const getColor = (() => {
-  const colors = [
-    "#CADFFF",
-    "#EBEBEB",
-    "#FFFFFF",
-  ];
+  const getColor = (() => {
+    const colors = [
+      "#CADFFF",
+      "#EBEBEB",
+      "#FFFFFF",
+    ];
 
-  const state = {
-    prevIndex: -1,
-    firstIndex: -1,
-    count: 0,
-  };
+    const state = {
+      prevIndex: -1,
+      firstIndex: -1,
+      count: 0,
+    };
 
-  return () => {
     const selectColor = (prevIndex: number, firstIndex: number, count: number) => {
-      const index = (prevIndex + 1) % colors.length;
+      const index = Math.floor(Math.random() * colors.length);
 
       if (count === 0) {
         state.firstIndex = index;
@@ -50,10 +47,12 @@ const getColor = (() => {
         return colors[index];
       }
 
+      if (index === prevIndex) {
+        return selectColor(prevIndex, firstIndex, count);
+      }
+
       if (count === colors.length - 1 && index === firstIndex) {
-        state.prevIndex = (index + 1) % colors.length;
-        state.count += 1;
-        return colors[(index + 1) % colors.length];
+        return selectColor(prevIndex, firstIndex, count);
       }
 
       state.prevIndex = index;
@@ -61,70 +60,70 @@ const getColor = (() => {
       return colors[index];
     };
 
-    return selectColor(state.prevIndex, state.firstIndex, state.count);
-  };
-})();
+    return () => selectColor(state.prevIndex, state.firstIndex, state.count);
+  })();
 
   const drawRoulette = () => {
-    const canvas = canvasRef.current;
-    if (canvas && options.length > 0) {
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        const [cw, ch] = [canvas.width / 2, canvas.height / 2];
-        const arc = Math.PI / (options.length / 2);
+  const canvas = canvasRef.current;
+  if (canvas && options.length > 0) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      const [cw, ch] = [canvas.width / 2, canvas.height / 2];
+      const arc = Math.PI / (options.length / 2);
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        for (let i = 0; i < options.length; i++) {
-          ctx.beginPath();
-          ctx.fillStyle = getColor();
-          ctx.moveTo(cw, ch);
-          ctx.arc(cw, ch, cw, arc * (i - 1), arc * i);
-          ctx.fill();
-          ctx.closePath();
-        }
-
-        // 중앙 동그라미 그리기
+      for (let i = 0; i < options.length; i++) {
         ctx.beginPath();
-        ctx.arc(cw, ch, 25, 0, Math.PI * 2);
-        ctx.fillStyle = '#3160D8';
+        ctx.fillStyle = getColor();
+        ctx.moveTo(cw, ch);
+        ctx.arc(cw, ch, cw, arc * i - Math.PI / 2, arc * (i + 1) - Math.PI / 2);
         ctx.fill();
-        ctx.lineWidth = 10;
-        ctx.strokeStyle = 'rgba(49, 96, 216, 0.47)';
-        ctx.stroke();
         ctx.closePath();
+      }
 
+      ctx.beginPath();
+      ctx.arc(cw, ch, 25, 0, Math.PI * 2);
+      ctx.fillStyle = '#3160D8';
+      ctx.fill();
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = 'rgba(49, 96, 216, 0.47)';
+      ctx.stroke();
+      ctx.closePath();
 
-        const maxTextWidth = cw - 60;
+      ctx.font = '16px Arial';
+      ctx.fillStyle = '#000';
 
-        for (let i = 0; i < options.length; i++) {
-          const angle = arc * i + arc / 2;
+      for (let i = 0; i < options.length; i++) {
+        const angle = arc * i + arc / 2 - Math.PI / 2;
+        const radius = cw - 50;
 
-          ctx.save();
+        const arcLength = radius * arc;
 
-          ctx.translate(cw + Math.cos(angle) * (cw - 50), ch + Math.sin(angle) * (ch - 50));
-          ctx.rotate(angle + Math.PI / 2);
+        ctx.save();
 
-          const text = options[i].value;
-          let truncatedText = text;
+        ctx.translate(cw + Math.cos(angle) * radius, ch + Math.sin(angle) * radius);
+        ctx.rotate(angle + Math.PI / 2);
 
-          if (ctx.measureText(text).width > maxTextWidth) {
-            while (
-              ctx.measureText(truncatedText + '...').width > maxTextWidth &&
-              truncatedText.length > 0
-            ) {
-              truncatedText = truncatedText.slice(0, -1);
-            }
-            truncatedText += '...';
+        let text = options[i].value;
+        let truncatedText = text;
+
+        if (ctx.measureText(text).width > arcLength) {
+          while (ctx.measureText(truncatedText + '...').width > arcLength && truncatedText.length > 0) {
+            truncatedText = truncatedText.slice(0, -1);
           }
-
-          ctx.fillText(truncatedText, 0, 0);
-
-          ctx.restore();
+          truncatedText += '...';
         }
+
+        const textWidth = ctx.measureText(truncatedText).width;
+        ctx.fillText(truncatedText, -textWidth / 2, 0);
+
+        ctx.restore();
       }
     }
-  };
+  }
+};
+
 
   const rotateRoulette = () => {
     if (spinning) return;
@@ -138,20 +137,20 @@ const getColor = (() => {
       setTimeout(() => {
         const ran = Math.floor(Math.random() * options.length);
         const arc = 360 / options.length;
-        const rotate = ran * arc + 3600 + arc * 3 - arc / 4;
+        const correctionAngle = -50;
+        const rotate = (ran * arc) + 5400 - (arc / 2) - correctionAngle;
 
         canvas.style.transform = `rotate(-${rotate}deg)`;
-        canvas.style.transition = `2s`;
+        canvas.style.transition = `transform 4s cubic-bezier(0.25, 1, 0.5, 1)`;
 
         setTimeout(() => {
           setWinner(options[ran].value);
           setSpinning(false);
-        }, 2000);
+        }, 4000);
       }, 1);
     }
   };
 
-  
   const resetOptions = () => {
     onGoBack();
   };
@@ -163,6 +162,11 @@ const getColor = (() => {
 
   return (
     <div className="flex h-screen flex-col items-center justify-between pb-24">
+      {
+        (!spinning && winner)
+          ? <div className="mb-16 flex justify-center text-4xl font-semibold"></div>
+          : <div className="mb-16 flex justify-center text-4xl font-semibold">룰렛 돌리기</div>
+      }
       <div className="flex flex-col items-center">
         <div className="flex relative h-96 items-center justify-center">
           <canvas
@@ -200,19 +204,8 @@ const getColor = (() => {
       >
         {spinning ? '돌리는 중...' : winner ? '다시 돌리기' : '룰렛 돌리기'}
       </button>
-      {
-        (!spinning && winner ) && (
-          <div className='flex bg-white/95 w-[90%] h-[655px] absolute z-20 top-0 rounded-xl flex-col items-center p-5'>
-            <div className="flex text-3xl font-semibold mb-20">
-              결과 보기
-            </div>
-            <Image src={WinnerImage} alt="축하" className='flex w-[150px] h-[150px]'/>
-            <div className="flex text-5xl font-normal">
-              {winner}
-            </div>
-          </div>
-        )
-      }
+
+      {(!spinning && winner ) && <WinnerModal winner={winner} />}
     </div>
   );
 };
