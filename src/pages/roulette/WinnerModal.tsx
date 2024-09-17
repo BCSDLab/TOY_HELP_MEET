@@ -16,4 +16,3 @@ function WinnerModal({winner}: {winner: string}) {
 }
 
 export default WinnerModal;
-
