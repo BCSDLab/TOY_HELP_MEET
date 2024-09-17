@@ -1,7 +1,7 @@
 import { AuthenticatedRequest, withApiAuth } from '@/lib/authMiddleware';
-import type { NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
 import { ApiResponse } from '@/types/api/api';
+import type { NextApiResponse } from 'next';
 
 interface Friend {
   id: number;
@@ -36,7 +36,7 @@ async function getFriends(userId: number): Promise<ApiResponse<Friend[]>> {
   }
 }
 
-async function addFriend(userId: number, friendId: number): Promise<ApiResponse<any>> {
+async function addFriend(userId: number, friendId: number): Promise<ApiResponse<unknown>> {
   if (!friendId || typeof friendId !== 'number') {
     return { success: false, message: 'Invalid friend ID.' };
   }

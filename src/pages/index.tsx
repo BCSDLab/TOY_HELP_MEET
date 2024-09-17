@@ -1,10 +1,9 @@
-import Link from 'next/link';
 import Image from 'next/image';
-import RouletteIcon from '@/assets/svg/roulette_home.svg';
-import IceBreakingIcon from '@/assets/svg/ice-breaking_home.svg';
-import WhereMeetIcon from '@/assets/svg/where-meet_home.svg';
+import Link from 'next/link';
 import DutchPayIcon from '@/assets/svg/dutchpay_home.svg';
-import { useRouter } from 'next/router';
+import IceBreakingIcon from '@/assets/svg/ice-breaking_home.svg';
+import RouletteIcon from '@/assets/svg/roulette_home.svg';
+import WhereMeetIcon from '@/assets/svg/where-meet_home.svg';
 import { useAuthStore } from '@/store/authStore';
 
 const HOME_INDEX = [
@@ -57,7 +56,7 @@ export default function Home() {
   const { user } = useAuthStore();
 
   return (
-    <div className="flex flex-col gap-5 px-10 py-14">
+    <div className="flex flex-col gap-5 px-5 py-14">
       <div className="mb-2 flex items-center justify-between">
         <div className="text-[36px] font-semibold">선택하시오!</div>
         {user ? (

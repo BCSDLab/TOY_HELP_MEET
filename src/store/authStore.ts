@@ -1,5 +1,5 @@
-import { UserDTO } from '@/types';
 import { create } from 'zustand';
+import { UserDTO } from '@/types';
 
 interface AuthState {
   user: UserDTO | null;
@@ -13,11 +13,6 @@ interface AuthState {
   logout: () => void;
   refreshToken: () => Promise<boolean>;
   initializeTokenRefresh: () => void;
-}
-
-interface AuthCheckResponse {
-  isAuthenticated: boolean;
-  user: UserDTO | null;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -60,7 +55,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         const { id, kakaoId, name, profileImageUrl, phoneNumber } = result.data;
         set({
           user: { id, kakaoId, name, profileImageUrl, phoneNumber },
-          isAuthenticated: true
+          isAuthenticated: true,
         });
 
         get().initializeTokenRefresh();

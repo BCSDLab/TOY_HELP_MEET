@@ -10,7 +10,7 @@ export default function TopNavigation({ path, close = false }: Props) {
   const router = useRouter();
   return (
     <div className="h-[50px] w-full">
-      <div className="fixed top-0 flex h-[50px] w-full max-w-md justify-between bg-[#f7f7f7] p-3">
+      <div className="fixed top-0 flex h-[50px] w-full max-w-md justify-between bg-transparent p-3">
         <button onClick={() => (path ? router.push(path) : router.back())}>
           <Left />
         </button>
